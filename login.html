@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Online Voting System</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        /* Background Image with Fallback Color */
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                        url('https://source.unsplash.com/1600x900/?technology,security') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white; /* Text color */
+        }
+
+        /* Fallback Background for Small Screens */
+        @media (max-width: 768px) {
+            body {
+                background: #B3E5FC; /* Light Blue */
+            }
+        }
+
+        /* Centered Login Box with Light Background */
+        .login-container {
+            background: #E3F2FD; /* Very Light Blue */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            margin: auto;
+            margin-top: 80px;
+            color: #333; /* Dark Text for Readability */
+        }
+
+        /* Video Styling */
+        video {
+            width: 100%;
+            border-radius: 10px;
+            display: none;
+            border: 2px solid #333;
+        }
+
+        /* Custom Buttons */
+        .btn-custom {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        /* Error Messages */
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        .footer-section {
+            background: #90CAF9; /* Light Blue */
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Login Form Container -->
+    <div class="container">
+        <div class="login-container">
+            <h2 class="text-center">Login</h2>
+            <form>
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Voter ID" id="voterID" required>
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" placeholder="Password" id="password" required>
+                </div>
+
+                <!-- Face Recognition Section -->
+                <h4 class="text-center">Face Recognition</h4>
+                <video id="video" autoplay></video>
+                <p id="face-error" class="error"></p>
+                <button type="button" class="btn btn-light btn-custom" onclick="requestCameraAccess()">Capture Face</button>
+
+                <!-- Fingerprint Authentication -->
+                <h4 class="text-center mt-3">Fingerprint Authentication</h4>
+                <p id="fingerprint-error" class="error"></p>
+                <button type="button" class="btn btn-warning btn-custom" onclick="scanFingerprint()">Scan Fingerprint</button>
+
+                <!-- Login Button -->
+                <button type="submit" class="btn btn-success btn-custom" onclick="return validateLogin()">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-section">
+        © 2025 Online Voting System
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let video = document.getElementById('video');
+        let faceVerified = false;
+        let fingerprintVerified = false;
+
+        function requestCameraAccess() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => { 
+                    video.srcObject = stream;
+                    video.style.display = "block"; 
+                    document.getElementById("face-error").innerText = "";
+                    captureFace();
+                })
+                .catch(err => { 
+                    document.getElementById("face-error").innerText = "⚠ Camera access is required! Please allow camera permissions.";
+                    alert("⚠ Please allow camera access in your browser settings.");
+                });
+        }
+
+        function captureFace() {
+            if (video.srcObject) {
+                alert("Move your head left and right to verify your face.");
+                setTimeout(() => { 
+                    faceVerified = true;
+                    alert("Face verified successfully!"); 
+                    document.getElementById("face-error").innerText = "";
+                }, 3000);
+            } else {
+                document.getElementById("face-error").innerText = "⚠ Camera access is required.";
+            }
+        }
+
+        function scanFingerprint() {
+            alert("Place your finger on the scanner...");
+            setTimeout(() => { 
+                fingerprintVerified = true;
+                alert("Fingerprint scanned successfully!");
+                document.getElementById("fingerprint-error").innerText = "";
+            }, 2000);
+        }
+
+        function validateLogin() {
+            if (!faceVerified) {
+                document.getElementById("face-error").innerText = "⚠ Face recognition is required!";
+                return false;
+            }
+            if (!fingerprintVerified) {
+                document.getElementById("fingerprint-error").innerText = "⚠ Fingerprint scan is required!";
+                return false;
+            }
+            return true;
+        }
+    </script>
+
+</body>
+</html>
