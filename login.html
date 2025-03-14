@@ -3,164 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Online Voting System</title>
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+    <title>Voter Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        /* Background Image with Fallback Color */
         body {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
-                        url('https://source.unsplash.com/1600x900/?technology,security') no-repeat center center fixed;
-            background-size: cover;
-            font-family: Arial, sans-serif;
-            color: white; /* Text color */
+            background: #eeeeee;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-
-        /* Fallback Background for Small Screens */
-        @media (max-width: 768px) {
-            body {
-                background: #B3E5FC; /* Light Blue */
-            }
-        }
-
-        /* Centered Login Box with Light Background */
         .login-container {
-            background: #E3F2FD; /* Very Light Blue */
+            width: 500px;
             padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
-            max-width: 400px;
-            margin: auto;
-            margin-top: 80px;
-            color: #333; /* Dark Text for Readability */
+            background: #7fffd4;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
-
-        /* Video Styling */
-        video {
-            width: 100%;
-            border-radius: 10px;
+        .btn-primary {
+            background-color: #3498db;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #217dbb;
+        }
+        .btn-success {
+            background-color: #28a745;
+        }
+        #otpSection {
             display: none;
-            border: 2px solid #333;
         }
-
-        /* Custom Buttons */
-        .btn-custom {
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        /* Error Messages */
-        .error {
-            color: red;
-            font-weight: bold;
-        }
-
-        /* Footer */
-        .footer-section {
-            background: #90CAF9; /* Light Blue */
-            color: white;
-            text-align: center;
-            padding: 10px;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
+        .disabled {
+            pointer-events: none;
+            opacity: 0.6;
         }
     </style>
 </head>
 <body>
 
-    <!-- Login Form Container -->
-    <div class="container">
-        <div class="login-container">
-            <h2 class="text-center">Login</h2>
-            <form>
-                <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Voter ID" id="voterID" required>
-                </div>
-                <div class="mb-3">
-                    <input type="password" class="form-control" placeholder="Password" id="password" required>
-                </div>
-
-                <!-- Face Recognition Section -->
-                <h4 class="text-center">Face Recognition</h4>
-                <video id="video" autoplay></video>
-                <p id="face-error" class="error"></p>
-                <button type="button" class="btn btn-light btn-custom" onclick="requestCameraAccess()">Capture Face</button>
-
-                <!-- Fingerprint Authentication -->
-                <h4 class="text-center mt-3">Fingerprint Authentication</h4>
-                <p id="fingerprint-error" class="error"></p>
-                <button type="button" class="btn btn-warning btn-custom" onclick="scanFingerprint()">Scan Fingerprint</button>
-
-                <!-- Login Button -->
-                <button type="submit" class="btn btn-success btn-custom" onclick="return validateLogin()">Login</button>
-            </form>
+<div class="login-container">
+    <h3 class="text-center text-primary">Voter Login</h3>
+    <form id="loginForm">
+        <div class="mb-3">
+            <label for="usernameEmail" class="form-label">Username or Email</label>
+            <input type="text" class="form-control" id="usernameEmail" placeholder="Enter Username or Email" required>
         </div>
-    </div>
 
-    <!-- Footer -->
-    <footer class="footer-section">
-        © 2025 Online Voting System
-    </footer>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter Password" required>
+        </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <div class="mb-3">
+            <label for="mobileNumber" class="form-label">Mobile Number</label>
+            <input type="text" class="form-control" id="mobileNumber" placeholder="Enter Mobile Number" required>
+        </div>
 
-    <script>
-        let video = document.getElementById('video');
-        let faceVerified = false;
-        let fingerprintVerified = false;
+        <button type="button" class="btn btn-primary w-100" id="sendOtpBtn" onclick="sendOTP()">Send OTP</button>
 
-        function requestCameraAccess() {
-            navigator.mediaDevices.getUserMedia({ video: true })
-                .then(stream => { 
-                    video.srcObject = stream;
-                    video.style.display = "block"; 
-                    document.getElementById("face-error").innerText = "";
-                    captureFace();
-                })
-                .catch(err => { 
-                    document.getElementById("face-error").innerText = "⚠ Camera access is required! Please allow camera permissions.";
-                    alert("⚠ Please allow camera access in your browser settings.");
-                });
+        <div id="otpSection">
+            <div class="mt-3">
+                <label for="otp" class="form-label">Enter OTP</label>
+                <input type="text" class="form-control" id="otp" placeholder="Enter OTP">
+            </div>
+
+            <button type="button" class="btn btn-success w-100 mt-3" onclick="verifyOTP()">Verify OTP</button>
+
+            <p class="text-center mt-2">
+                <span id="resendText">Resend OTP in <span id="timer">60</span> seconds</span>
+                <button type="button" class="btn btn-link" id="resendOtpBtn" onclick="sendOTP()" disabled>Resend OTP</button>
+            </p>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 mt-3">Login</button>
+
+        <p class="text-center mt-3">
+            <a href="#" id="forgotPassword">Forgot Password?</a>
+        </p>
+    </form>
+</div>
+
+<script>
+    function sendOTP() {
+        let mobileNumber = document.getElementById("mobileNumber").value;
+        if (mobileNumber.length !== 10 || isNaN(mobileNumber)) {
+            alert("Enter a valid 10-digit mobile number");
+            return;
         }
 
-        function captureFace() {
-            if (video.srcObject) {
-                alert("Move your head left and right to verify your face.");
-                setTimeout(() => { 
-                    faceVerified = true;
-                    alert("Face verified successfully!"); 
-                    document.getElementById("face-error").innerText = "";
-                }, 3000);
-            } else {
-                document.getElementById("face-error").innerText = "⚠ Camera access is required.";
+        document.getElementById("otpSection").style.display = "block";
+        document.getElementById("sendOtpBtn").classList.add("disabled");
+
+        startTimer();
+    }
+
+    function startTimer() {
+        let timer = 60;
+        document.getElementById("resendOtpBtn").disabled = true;
+        let interval = setInterval(function () {
+            document.getElementById("timer").innerText = timer;
+            timer--;
+
+            if (timer < 0) {
+                clearInterval(interval);
+                document.getElementById("resendOtpBtn").disabled = false;
+                document.getElementById("resendText").style.display = "none";
             }
-        }
+        }, 1000);
+    }
 
-        function scanFingerprint() {
-            alert("Place your finger on the scanner...");
-            setTimeout(() => { 
-                fingerprintVerified = true;
-                alert("Fingerprint scanned successfully!");
-                document.getElementById("fingerprint-error").innerText = "";
-            }, 2000);
+    function verifyOTP() {
+        let otp = document.getElementById("otp").value;
+        if (otp === "123456") {  // Temporary OTP validation
+            alert("OTP Verified!");
+        } else {
+            alert("Invalid OTP, try again.");
         }
-
-        function validateLogin() {
-            if (!faceVerified) {
-                document.getElementById("face-error").innerText = "⚠ Face recognition is required!";
-                return false;
-            }
-            if (!fingerprintVerified) {
-                document.getElementById("fingerprint-error").innerText = "⚠ Fingerprint scan is required!";
-                return false;
-            }
-            return true;
-        }
-    </script>
+    }
+</script>
 
 </body>
 </html>
