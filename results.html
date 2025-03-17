@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Election Results - Online Voting System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f8f9fa;
+            margin: 0;
+        }
+        header {
+            background: #007BFF;
+            color: white;
+            padding: 15px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+        h2 {
+            color: #007BFF;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background: #007BFF;
+            color: white;
+        }
+        .winner {
+            background: #28a745 !important;
+            color: white;
+            font-weight: bold;
+        }
+        img {
+            width: 40px;
+            height: 40px;
+        }
+        .winner-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: #28a745;
+            color: white;
+            font-size: 18px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .back-btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Election Results</h1>
+    </header>
+    <main>
+        <div class="container">
+            <h2>Final Vote Count</h2>
+            <table>
+                <tr>
+                    <th>Symbol</th>
+                    <th>Candidate Name</th>
+                    <th>Votes</th>
+                </tr>
+                <tr class="winner">
+                    <td><img src="lotus.png" alt="Flower Symbol"></td>
+                    <td>Keshav</td>
+                    <td>450</td>
+                </tr>
+                <tr>
+                    <td><img src=C:\Users\sandh\OneDrive\Desktop\fullstack\handimg.jpg alt="Fan Symbol"></td>
+                    <td>Sudharani</td>
+                    <td>390</td>
+                </tr>
+                <tr>
+                    <td><img src="cycle.jpg" alt="Cycle Symbol">
+</td>
+                    <td>Satya</td>
+                    <td>320</td>
+                </tr>
+                <tr>
+                    <td><img src=C:\Users\sandh\OneDrive\Desktop\fullstack\handimg.jpg alt="Hand Symbol"></td>
+                    <td>Chandu</td>
+                    <td>290</td>
+                </tr>
+                <tr>
+                    <td><img src=C:\Users\sandh\OneDrive\Desktop\fullstack\ele.jpg alt alt="Elephant Symbol"></td>
+                    <td>Sravani</td>
+                    <td>270</td>
+                </tr>
+            </table>
+
+            <!-- Winner Announcement -->
+            <div class="winner-box">
+                🏆 Winner: Keshav with 450 votes! 🎉
+            </div>
+
+            <a href="index.html" class="back-btn">Back to Home</a>
+        </div>
+    </main>
+</body>
+</html>
