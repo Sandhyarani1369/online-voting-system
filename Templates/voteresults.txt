@@ -1,0 +1,27 @@
+ To Start Voting:
+
+sql
+Copy
+Edit
+INSERT INTO election_status (status) VALUES ('open');
+2️⃣ To Close Voting (Using Your Query):
+
+sql
+Copy
+Edit
+UPDATE election_status SET status = 'closed' WHERE id = (SELECT MAX(id) FROM election_status);
+3️⃣ To Check Status Before Displaying Results:
+
+sql
+Copy
+Edit
+SELECT status FROM election_status ORDER BY id DESC LIMIT 1;
+If status = 'open', show "Voting still ongoing"
+If status = 'closed', fetch results:
+sql
+Copy
+Edit
+SELECT party_name, COUNT(*) AS vote_count 
+FROM votes 
+GROUP BY party_name 
+ORDER BY vote_count DESC;
