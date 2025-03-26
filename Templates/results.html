@@ -5,24 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Election Results - Online Voting System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeIn 1s forwards;
+        }
+        .slide-in {
+            opacity: 0;
+            transform: translateX(-50px);
+            animation: slideIn 1s forwards 0.5s;
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        .spinner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80px;
+        }
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+    </style>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            let resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = `<div class="spinner"><div class="spinner-border text-primary"></div></div>`;
+
             fetch("/get_results")
                 .then(response => response.json())
                 .then(data => {
-                    let resultsDiv = document.getElementById("results");
-
                     if (data.status === "pending") {
                         resultsDiv.innerHTML = `
-                            <div class="alert alert-warning text-center">
+                            <div class="alert alert-warning text-center fade-in">
                                 <h4>Election Results</h4>
                                 <p>Voting is still ongoing. Results will be declared after elections.</p>
                             </div>
                         `;
                     } else if (data.status === "closed") {
                         let resultsHTML = `
-                            <h3 class="text-center">Election Results</h3>
-                            <table class="table table-bordered">
+                            <h3 class="text-center fade-in">Election Results</h3>
+                            <table class="table table-bordered slide-in">
                                 <thead>
                                     <tr>
                                         <th>Party Name</th>
@@ -41,15 +79,11 @@
                             `;
                         });
 
-                        resultsHTML += `
-                                </tbody>
-                            </table>
-                        `;
-
+                        resultsHTML += `</tbody></table>`;
                         resultsDiv.innerHTML = resultsHTML;
                     } else {
                         resultsDiv.innerHTML = `
-                            <div class="alert alert-danger text-center">
+                            <div class="alert alert-danger text-center fade-in">
                                 <h4>Error Fetching Results</h4>
                                 <p>${data.message}</p>
                             </div>
@@ -57,8 +91,8 @@
                     }
                 })
                 .catch(error => {
-                    document.getElementById("results").innerHTML = `
-                        <div class="alert alert-danger text-center">
+                    resultsDiv.innerHTML = `
+                        <div class="alert alert-danger text-center fade-in">
                             <h4>Error</h4>
                             <p>Unable to fetch results. Please try again later.</p>
                         </div>
@@ -69,11 +103,9 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="text-center">Election Results</h1>
-        <div id="results" class="mt-4">
-            <p class="text-center">Fetching results...</p>
-        </div>
-        <div class="text-center mt-3">
+        <h1 class="text-center fade-in">Election Results</h1>
+        <div id="results" class="mt-4"></div>
+        <div class="text-center mt-3 fade-in">
             <a href="{{ url_for('voter_dashboard') }}" class="btn btn-primary">Back to Dashboard</a>
         </div>
     </div>
