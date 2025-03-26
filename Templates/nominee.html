@@ -1,78 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nominee Registration - Online Voting System</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background: url("static/images/back.jpg") no-repeat center center fixed; 
-            background-size: cover;
-            font-family: Arial, sans-serif;
-        }
-        .register-container {
-            background: rgba(127, 255, 212, 0.9);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-            max-width: 550px;
-            margin: auto;
-            margin-top: 50px;
-            color: #333;
-        }
-        .form-control {
-            border-radius: 8px;
-            border: 1px solid #ccc;
-        }
-        .btn-custom {
-            width: 100%;
-            margin-top: 10px;
-        }
-        .footer-section {
-            background: #6c757d;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nominee Registration - Online Voting System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Smooth fade-in animation */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    body {
+      background: url("static/images/back.jpg") no-repeat center center fixed; 
+      background-size: cover;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Animate the main container */
+    .container {
+      opacity: 0;
+      animation: fadeInUp 1s ease-out forwards;
+    }
+
+    .register-container {
+      background: rgba(127, 255, 212, 0.9);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+      max-width: 550px;
+      margin: auto;
+      margin-top: 50px;
+      color: #333;
+    }
+
+    .form-control {
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      transition: border-color 0.3s ease;
+    }
+    .form-control:focus {
+      border-color: #3498db;
+    }
+
+    /* Increase button size and add hover animation */
+    .btn-custom {
+      width: 100%;
+      margin-top: 10px;
+      padding: 15px;  /* Slightly larger padding */
+      font-size: 18px; /* Larger font for a professional look */
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .btn-custom:hover {
+      transform: scale(1.03);
+    }
+
+    .footer-section {
+      background: #6c757d;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      opacity: 0;
+      animation: fadeInUp 1s ease-out forwards;
+      animation-delay: 0.8s;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="register-container">
-            <h2 class="text-center">Nominee Registration</h2>
-                        <form id="nominee-form" method="POST" action="{{ url_for('nominee') }}" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <input type="text" id="full_name" name="full_name" class="form-control" placeholder="Full Name" required>
-                </div>
-                <div class="mb-3">
-                    <input type="text" id="mobile" name="mobile" class="form-control" placeholder="Mobile Number" required pattern="\d{10}" title="Enter a valid 10-digit mobile number">
-                </div>
-                <div class="mb-3">
-                    <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
-                </div>
-                <div class="mb-3">
-                    <input type="text" id="aadhaar" name="aadhaar_number" class="form-control" placeholder="Aadhaar Number (12 digits)" required pattern="\d{12}" title="Enter a valid 12-digit Aadhaar number">
-                </div>
-                <div class="mb-3">
-                    <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
-                </div>
-                <div class="mb-3">
-                    <textarea id="campaign_message" name="campaign_message" class="form-control" placeholder="Campaign Message" required></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="profile_photo" class="form-label">Profile Photo</label>
-                    <input type="file" id="profile_photo" name="profile_photo" class="form-control">
-                </div>
-                <button type="submit" class="btn btn-success btn-custom">Register</button>
-            </form>
+  <div class="container">
+    <div class="register-container">
+      <h2 class="text-center">Nominee Registration</h2>
+      <form id="nominee-form" method="POST" action="{{ url_for('nominee') }}" enctype="multipart/form-data">
+        <div class="mb-3">
+          <input type="text" id="full_name" name="full_name" class="form-control" placeholder="Full Name" required>
         </div>
+        <div class="mb-3">
+          <input type="text" id="mobile" name="mobile" class="form-control" placeholder="Mobile Number" required pattern="\d{10}" title="Enter a valid 10-digit mobile number">
+        </div>
+        <div class="mb-3">
+          <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
+        </div>
+        <div class="mb-3">
+          <input type="text" id="aadhaar" name="aadhaar_number" class="form-control" placeholder="Aadhaar Number (12 digits)" required pattern="\d{12}" title="Enter a valid 12-digit Aadhaar number">
+        </div>
+        <div class="mb-3">
+          <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+        </div>
+        <div class="mb-3">
+          <textarea id="campaign_message" name="campaign_message" class="form-control" placeholder="Campaign Message" required></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="profile_photo" class="form-label">Profile Photo</label>
+          <input type="file" id="profile_photo" name="profile_photo" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-success btn-custom">Register</button>
+      </form>
     </div>
-    <footer class="footer-section">
-        © 2025 Online Voting System
-    </footer>
+  </div>
+  <footer class="footer-section">
+    © 2025 Online Voting System
+  </footer>
 </body>
 </html>
